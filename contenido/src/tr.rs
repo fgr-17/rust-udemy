@@ -4,6 +4,8 @@
 #![allow(unused_variables)]
 #![allow(unused_mut)]
 #![allow(unused_assignments)]
+#![allow(unused_imports)]
+
 trait Animal {
     // funcion generadora: devuelve self con mayus
     fn create(name:&'static str) -> Self;
@@ -335,4 +337,45 @@ pub fn operator_overloading()
     // deduce como el contrario del igual
     println!("e == f? -> {}", e != f);
 
+}
+
+use std::mem;
+
+trait Printable
+{
+    fn format(&self) -> String;
+}
+
+impl Printable for i32
+{
+    fn format(&self) -> String
+    {
+        format!("i32: {}", *self)
+    }
+}
+
+impl Printable for String
+{
+    fn format(&self) -> String
+    {
+        format!("String: {}", *self)
+    }
+}
+
+fn print<T: Printable>(z: T)
+{
+    println!("{}", z.format());
+} // monomorphisation
+
+pub fn static_dispatch()
+{
+    let a = 123;
+    let b = "hola".to_string();
+
+    // println!("a: {}", a.format());
+    // println!("b: {}", b.format());
+    // es static dispatch porque la decision de cual print llamar
+    // de define en tiempo de compilación
+    print(a);
+    print(b);
 }
