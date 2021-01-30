@@ -2,7 +2,8 @@
 
 #![allow(dead_code)]
 #![allow(unused_variables)]
-
+#![allow(unused_mut)]
+#![allow(unused_assignments)]
 trait Animal {
     // funcion generadora: devuelve self con mayus
     fn create(name:&'static str) -> Self;
@@ -210,5 +211,128 @@ pub fn drop_trait()
         clever = goblin2;
         println!("endofscope");
     }
+
+}
+
+// los operadores son traits
+use std::ops::{Add, AddAssign, Neg};
+
+
+#[derive(Debug, PartialEq, Eq)]
+struct Complex <T>
+{
+    re: T,
+    im: T
+}
+
+impl<T> Complex<T> 
+{
+    fn new(re: T, im: T) -> Complex<T> 
+    {
+        // se pone el :: porque sino trata al < como menor
+        Complex::<T> {re, im}
+    }
+}
+
+// Implementación para <i32>
+// impl Add for Complex<i32> {
+//     // el tipo que devuelve
+//     type Output = Complex<i32>;
+
+//     // Self con mayus se refiere el tipo de dato
+//     fn add(self, rhs: Self) -> Self::Output {
+//         Complex {
+//             re: self.re + rhs.re,
+//             im: self.im + rhs.im
+//         }
+//     }
+// }
+
+// agrego el where porque el tipo T tiene que soportar
+// si o si el operador +
+impl<T> Add for Complex<T> 
+  where T: Add<Output = T>
+{
+    // el tipo que devuelve
+    type Output = Complex<T>;
+
+    // Self con mayus se refiere el tipo de dato
+    fn add(self, rhs: Self) -> Self::Output {
+        Complex {
+            re: self.re + rhs.re,
+            im: self.im + rhs.im
+        }
+    }
+}
+
+impl<T> AddAssign for Complex<T>
+  where T: AddAssign<T>
+{
+    fn add_assign(&mut self, rhs: Self) {
+        self.re += rhs.re;
+        self.im += rhs.im;
+    }
+
+}
+
+impl<T> Neg for Complex<T>
+  where T: Neg<Output=T>
+{
+    type Output = Complex<T>;
+
+    fn neg(self) -> Self::Output {
+        Complex {
+            re: -self.re,
+            im: -self.im
+        }
+    }
+}
+
+
+// operador Eq
+// partial eq
+// full eq: x = x
+// NAN != NAN -> float no soporta con full eq
+
+// use std::cmp::{PartialEq};
+
+// impl<T> PartialEq for Complex<T>
+//  where T: PartialEq
+// {
+//     fn eq(&self, rhs: &Self) -> bool {
+//         self.re == rhs.re && self.im == rhs.im
+//     }
+
+// }
+
+
+// // se puede agregar full equality si el tipo lo soporta
+// // no hace falta implementarlo porque se deduce ?
+// impl<T: Eq> Eq for Complex<T> where T: Eq {}
+
+// Eq y PartialEq estan comentados porque también se puede usar derive
+// al definir el struct y hace una comparación elemento a elemento
+
+pub fn operator_overloading() 
+{
+    // let mut a = Complex::new(1, 2);
+    // let mut b = Complex::new(3, 4);
+    let mut a = Complex::new(1.0, 2.0);
+    let mut b = Complex::new(3.0, 4.0);
+    println!("a = {:?}", a);
+    println!("b = {:?}", b);
+    println!("a + b ={:?}", a+b);
+
+    let mut c = Complex::new(1.0, 2.0);
+    let d = Complex::new(1.0, 1.0);
+    c += d;
+    println!("c = {:?}", -c);
+
+    let e = Complex::new(1.0, 2.0);
+    let f = Complex::new(1.0, 1.0);
+    // println!("e == f? -> {}", e == f);
+    // el desigual no hace falta implementarlo porque se 
+    // deduce como el contrario del igual
+    println!("e == f? -> {}", e != f);
 
 }

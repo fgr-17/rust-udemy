@@ -106,5 +106,6 @@ fn main()
     // tr::traits();
     // tr::trait_parameters();
     // tr::into();
-    tr::drop_trait();
+    // tr::drop_trait();
+    tr::operator_overloading();
 }
