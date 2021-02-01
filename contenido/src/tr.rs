@@ -362,7 +362,7 @@ impl Printable for String
     }
 }
 
-fn print<T: Printable>(z: T)
+fn print_static_disp<T: Printable>(z: T)
 {
     println!("{}", z.format());
 } // monomorphisation
@@ -376,6 +376,37 @@ pub fn static_dispatch()
     // println!("b: {}", b.format());
     // es static dispatch porque la decision de cual print llamar
     // de define en tiempo de compilación
-    print(a);
-    print(b);
+    print_static_disp(a);
+    print_static_disp(b);
 }
+
+fn print_dyn_disp(z: &dyn Printable) 
+{
+    println!("{}", z.format());
+}
+
+pub fn dynamic_dispatch() 
+{
+    let a = 188;
+    // tiene que ser un puntero porque sino no sabe el tamaño del parametro
+    // se resuelve el tipo en forma dinámica
+    // es una llamada más pesada
+    print_dyn_disp(&a);
+
+    let shapes:[&Shape; 4] = [
+        &Circle{radius: 1.0},
+        &Square{side: 3.0},
+        &Circle{radius: 2.0},
+        &Square{side: 4.0},
+    ];
+// esto solo puede resolverse por dym dispatch
+    for (i, shape) in shapes.iter().enumerate()
+    {
+        println!("Shape #{} has area {}", i, shape.area());
+    }
+
+
+
+
+}
+
