@@ -8,7 +8,7 @@ mod sc;
 mod strings;
 mod fns;
 mod tr;
-
+mod lam;
 
 use std::mem;
 
@@ -112,5 +112,7 @@ fn main()
     // tr::operator_overloading();
     // tr::static_dispatch();
     // tr::dynamic_dispatch();
-    tr::vector_diff_objects();
+    // tr::vector_diff_objects();
+
+        lam::ownership();
 }
