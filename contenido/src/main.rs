@@ -12,6 +12,8 @@ mod tr;
 
 use std::mem;
 
+use tr::dynamic_dispatch;
+
 fn datatypes()
 {
 
@@ -106,5 +108,9 @@ fn main()
     // tr::traits();
     // tr::trait_parameters();
     // tr::into();
-    tr::drop_trait();
+    // tr::drop_trait();
+    // tr::operator_overloading();
+    // tr::static_dispatch();
+    // tr::dynamic_dispatch();
+    tr::vector_diff_objects();
 }
