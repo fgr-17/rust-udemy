@@ -8,7 +8,10 @@
 
 trait Animal {
     // funcion generadora: devuelve self con mayus
-    fn create(name:&'static str) -> Self;
+    // fn create(name:&'static str) -> Self;
+    // el compilador me hizo agregar el constraint where ... para que pueda
+    // usarse con Box
+    fn create(name:&'static str) -> Self where Self: Sized;
 
     fn name(&self) -> &'static str;
 
@@ -393,20 +396,58 @@ pub fn dynamic_dispatch()
     // es una llamada más pesada
     print_dyn_disp(&a);
 
-    let shapes:[&Shape; 4] = [
+    // let shapes:[&Shape; 4] = [
+    // el compilador me hizo agregarle dyn
+    let shapes:[&dyn Shape; 4] = [
         &Circle{radius: 1.0},
         &Square{side: 3.0},
         &Circle{radius: 2.0},
         &Square{side: 4.0},
     ];
-// esto solo puede resolverse por dym dispatch
+    // esto solo puede resolverse por dym dispatch
     for (i, shape) in shapes.iter().enumerate()
     {
         println!("Shape #{} has area {}", i, shape.area());
     }
+}
 
+// 
+enum CreatureT
+{
+    Human(Human), 
+    Cat(Cat)
+}
 
+pub fn vector_diff_objects() {
+    // let mut creatures = Vec::new();
+    // no funca porque son de diferentes tipos
+    // creatures.push(Human{name:"Juan"});
+    // creatures.push(Cat{name:"cati"});
+
+    let mut creatures: Vec<CreatureT> = Vec::new();
+    creatures.push(CreatureT::Human(Human {name:"Fede"}));
+    creatures.push(CreatureT::Cat(Cat {name:"cati"}));
+
+    for c in creatures
+    {
+        match c {
+            CreatureT::Human(h) => h.talk(),
+            CreatureT::Cat(c) => c.talk(),
+        }
+
+    }
+
+    // esto no me deja hacer porque el trait Animal no tiene un tamaño fijo
+    // let mut animals:Vec<Animal> = Vec::new();
+
+    let mut animals:Vec<Box<Animal>> = Vec::new();
+    // ver nota linea 12
+    animals.push(Box::new(Human {name:"Fede"}));
+    animals.push(Box::new(Cat {name:"cati"}));
+
+    for a in animals.iter() {
+        a.talk();
+    }
 
 
 }
-

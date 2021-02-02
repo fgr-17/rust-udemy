@@ -111,5 +111,6 @@ fn main()
     // tr::drop_trait();
     // tr::operator_overloading();
     // tr::static_dispatch();
-    tr::dynamic_dispatch();
+    // tr::dynamic_dispatch();
+    tr::vector_diff_objects();
 }
