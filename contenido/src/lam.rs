@@ -1,5 +1,9 @@
 // lifetime and memory:
 #![allow(unused_mut)]
+#![allow(unused_variables)]
+#![allow(unused_assignments)]
+
+
 
 pub fn ownership() {
     let v = vec![1,2,3];
@@ -65,5 +69,48 @@ pub fn borrowing() {
         // no me deja tomarlo (borrow) como inmutable y mutable a la vez
         // z.push(4);
     }
+
+}
+
+struct Person {
+    name: String
+}
+
+impl Person 
+{
+    // fn get_ref_name(&self) -> &String
+    // {
+    //     &self.name
+    // }
+    // version explicita con el lifetime igual para todos:
+    fn get_ref_name<'a>(&'a self) -> &'a String
+    {
+        &self.name
+    }
+
+}
+
+// struct Company {
+// es necesario especificar el lifetime del struct si tiene un puntero adentro
+// de esta manera le digo que cuando el puntero deje de existir, la estructura
+// también deje de ser válida
+struct Company<'z>
+{
+    name: String,
+    ceo: &'z Person
+}
+
+
+pub fn lifetime() {
+    let boss = Person{name: String::from("Elon Musk")};
+    let _tesla = Company{name: String::from("Tesla"), ceo:&boss};
+
+    let mut z: &String;
+    {
+        let p = Person{name: String::from("Fede")};
+        z = p.get_ref_name();
+    }
+    // me tira error la sgte linea: "borrowed value doesn't live long enough"
+    // println!("z: {}", z);
 
 }

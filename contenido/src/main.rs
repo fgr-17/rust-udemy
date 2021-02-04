@@ -12,6 +12,7 @@ mod lam;
 
 use std::mem;
 
+use lam::lifetime;
 use tr::dynamic_dispatch;
 
 fn datatypes()
@@ -115,5 +116,6 @@ fn main()
     // tr::vector_diff_objects();
 
     // lam::ownership();
-    lam::borrowing();
+    // lam::borrowing();
+    lam::lifetime();
 }
