@@ -1,5 +1,5 @@
 // lifetime and memory:
-
+#![allow(unused_mut)]
 
 pub fn ownership() {
     let v = vec![1,2,3];
@@ -34,4 +34,36 @@ pub fn ownership() {
 
     let vv = print_vector(v);
     println!("{:?}", vv);
+
+}
+
+pub fn borrowing() {
+
+    let print_vector = |x:&Vec<i32>|
+    {
+        println!("{:?}", x);
+    };
+
+    let v = vec![1,2,3];
+    print_vector(&v);  
+    // si lo paso como referencia lo puedo volver a usar
+    println!("{:?}", v);
+
+    let mut a = 40;
+    { // si b lo uso dentro de un scope diferente, cuando termina, libera a la var a
+        let b = &mut a;
+
+        *b += 2;
+    }
+    // a mi me dejo sin problemas hacer esto 
+    println!("a = {}", a);
+
+    let mut z = vec![3,2,1];
+
+    for i in &z {
+        println!("i = {}", i);
+        // no me deja tomarlo (borrow) como inmutable y mutable a la vez
+        // z.push(4);
+    }
+
 }

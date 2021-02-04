@@ -114,5 +114,6 @@ fn main()
     // tr::dynamic_dispatch();
     // tr::vector_diff_objects();
 
-        lam::ownership();
+    // lam::ownership();
+    lam::borrowing();
 }
