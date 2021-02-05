@@ -117,5 +117,6 @@ fn main()
 
     // lam::ownership();
     // lam::borrowing();
-    lam::lifetime();
+    // lam::lifetime();
+    lam::lifetime_in_struct_impl();
 }

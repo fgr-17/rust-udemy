@@ -114,3 +114,24 @@ pub fn lifetime() {
     // println!("z: {}", z);
 
 }
+
+struct Person2 <'a> {
+    // missing lifetime specifier
+    // name: &str
+    name: &'a str
+}
+
+// se puede usar a o cualquier otra letra
+impl<'b> Person2<'b>
+{
+    fn talk(&self)
+    {
+        println!("hola, soy {}", self.name);
+    }
+}
+
+pub fn lifetime_in_struct_impl() 
+{
+    let person = Person2 {name: "Fede"};
+    person.talk();
+}
