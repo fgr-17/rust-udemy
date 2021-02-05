@@ -12,7 +12,7 @@ mod lam;
 
 use std::mem;
 
-use lam::lifetime;
+use lam::{lifetime, reference_counted_vars};
 use tr::dynamic_dispatch;
 
 fn datatypes()
@@ -118,5 +118,6 @@ fn main()
     // lam::ownership();
     // lam::borrowing();
     // lam::lifetime();
-    lam::lifetime_in_struct_impl();
+    // lam::lifetime_in_struct_impl();
+    lam::reference_counted_vars();
 }

@@ -1,9 +1,9 @@
 // lifetime and memory:
+
+#![allow(dead_code)]
 #![allow(unused_mut)]
 #![allow(unused_variables)]
 #![allow(unused_assignments)]
-
-
 
 pub fn ownership() {
     let v = vec![1,2,3];
@@ -134,4 +134,53 @@ pub fn lifetime_in_struct_impl()
 {
     let person = Person2 {name: "Fede"};
     person.talk();
+}
+
+// clase generica que permite llevar una cuenta
+// de las referencias de cada variable
+use std::rc::Rc;
+
+struct Person3
+{
+    // name: String
+    name: Rc<String>
+}
+
+
+impl Person3
+{
+    // fn new(name: String) -> Person3
+    fn new(name: Rc<String>) -> Person3
+    {
+        Person3 {name: name}
+    }
+
+    fn greet(&self) 
+    {
+        println!("hola, soy {}", self.name)
+    }
+}
+
+fn rc_demo() 
+{
+    // let name = "Fede".to_string();
+    // let person = Person3::new(name);
+    let name = Rc::new("Fede".to_string());
+    println!("name: {}, #strong pointers: {}", name, Rc::strong_count(&name));
+    {
+        let person = Person3::new(name.clone());
+        println!("name: {}, #strong pointers: {}", name, Rc::strong_count(&name));
+        person.greet();
+    }
+    // esto no se puede hacer porque movi al crear Person3
+    // println!("{}", name);
+    // al hacer clone si puedo volver a usarla
+    println!("{}", name);
+    println!("name: {}, #strong pointers: {}", name, Rc::strong_count(&name));
+
+}
+
+pub fn reference_counted_vars()
+{
+    rc_demo();
 }
