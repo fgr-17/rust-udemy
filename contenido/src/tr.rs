@@ -440,7 +440,9 @@ pub fn vector_diff_objects() {
     // esto no me deja hacer porque el trait Animal no tiene un tamaño fijo
     // let mut animals:Vec<Animal> = Vec::new();
 
-    let mut animals:Vec<Box<Animal>> = Vec::new();
+    // let mut animals:Vec<Box<Animal>> = Vec::new();
+    // el compilador me sugirio ponerle -dyn-
+    let mut animals:Vec<Box<dyn Animal>> = Vec::new();
     // ver nota linea 12
     animals.push(Box::new(Human {name:"Fede"}));
     animals.push(Box::new(Cat {name:"cati"}));
