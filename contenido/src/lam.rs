@@ -187,13 +187,13 @@ pub fn reference_counted_vars()
 
 use std::thread;
 
+use std::sync::Arc;
 struct Person4
 {
     // name: String
     name: Arc<String>
 }
 
-use std::sync::Arc;
 
 impl Person4
 {
@@ -225,4 +225,53 @@ pub fn atomic_rc()
     println!("name: {}", name);
 
     t.join().unwrap();
+}
+
+use std::sync::Mutex;
+
+struct Person5
+{
+    // name: String
+    name: Arc<String>,
+    state: Arc<Mutex<String>>
+}
+
+
+impl Person5
+{
+    fn new(name: Arc<String>, state: Arc<Mutex<String>>) -> Person5
+    {
+        Person5 {name, state}
+    }
+
+    fn greet(&self) 
+    {
+        // self.state.clear();
+        // self.state.push_str("excited");
+
+        let mut state = self.state.lock().unwrap();
+        state.clear();
+        state.push_str("excited");
+
+        println!("hola, soy {}, y estoy {}", self.name, state.as_str());
+
+    }
+}
+
+pub fn mutex_demo() 
+{
+    let name = Arc::new("Fede".to_string());
+    let state = Arc::new(Mutex::new("bored".to_string()));
+    let person = Person5::new(name.clone(), state.clone()); 
+    
+    let t = thread::spawn(move || {
+        person.greet();
+    });
+
+
+    println!("name: {}, state: {}", name, state.lock().unwrap().as_str());
+
+    t.join().unwrap();    
+
+
 }

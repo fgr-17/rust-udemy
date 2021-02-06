@@ -12,7 +12,7 @@ mod lam;
 
 use std::mem;
 
-use lam::{lifetime, reference_counted_vars};
+use lam::{lifetime, mutex_demo, reference_counted_vars};
 use tr::dynamic_dispatch;
 
 fn datatypes()
@@ -120,5 +120,6 @@ fn main()
     // lam::lifetime();
     // lam::lifetime_in_struct_impl();
     // lam::reference_counted_vars();
-    lam::atomic_rc();
+    // lam::atomic_rc();
+    lam::mutex_demo();
 }
