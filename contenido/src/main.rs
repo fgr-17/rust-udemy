@@ -119,5 +119,6 @@ fn main()
     // lam::borrowing();
     // lam::lifetime();
     // lam::lifetime_in_struct_impl();
-    lam::reference_counted_vars();
+    // lam::reference_counted_vars();
+    lam::atomic_rc();
 }

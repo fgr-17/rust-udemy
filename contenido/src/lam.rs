@@ -184,3 +184,45 @@ pub fn reference_counted_vars()
 {
     rc_demo();
 }
+
+use std::thread;
+
+struct Person4
+{
+    // name: String
+    name: Arc<String>
+}
+
+use std::sync::Arc;
+
+impl Person4
+{
+    fn new(name: Arc<String>) -> Person4
+    {
+        Person4 {name: name}
+    }
+
+    fn greet(&self) 
+    {
+        println!("hola, soy {}", self.name)
+    }
+}
+
+pub fn atomic_rc()
+{
+    let name = Arc::new("Fede".to_string());
+    let person = Person4::new(name.clone());
+
+    // no se le puede pasar un rc a thread porque no es thread safe
+    // let t = thread::spawn(move || {
+    //     person.greet();
+    // })
+    let t = thread::spawn(move || {
+        person.greet();
+    });
+
+
+    println!("name: {}", name);
+
+    t.join().unwrap();
+}
