@@ -9,6 +9,7 @@ mod strings;
 mod fns;
 mod tr;
 mod lam;
+mod at;
 
 use std::mem;
 
@@ -121,5 +122,7 @@ fn main()
     // lam::lifetime_in_struct_impl();
     // lam::reference_counted_vars();
     // lam::atomic_rc();
-    lam::mutex_demo();
+    // lam::mutex_demo();
+
+    at::advanced_topics();
 }
