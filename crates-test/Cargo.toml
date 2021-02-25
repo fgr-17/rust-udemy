@@ -5,3 +5,4 @@
 
  [dependencies]
  rand = "0.3.12"
+ phrases = { path = "../Phrases" }
