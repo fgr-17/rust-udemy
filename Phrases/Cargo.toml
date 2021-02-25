@@ -1,0 +1,4 @@
+ [package]
+ name = "phrases"
+ version = "0.1.0"
+ author = ["Federico Roux <federico.roux@globant.com"]
