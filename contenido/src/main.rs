@@ -10,6 +10,7 @@ mod fns;
 mod tr;
 mod lam;
 mod at;
+mod cc;
 
 use std::mem;
 
@@ -124,5 +125,7 @@ fn main()
     // lam::atomic_rc();
     // lam::mutex_demo();
 
-    at::advanced_topics();
+    // at::advanced_topics();
+
+    cc::spawning_joining_threads();
 }
